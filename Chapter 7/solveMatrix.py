@@ -28,32 +28,7 @@ def Gaussian(A:np.array):
 def partialPivot(A:np.array):
     pass
 
-def Jacobi(A:np.array, x:np.array, b:np.array, iter:int, tol:float=1e-5):
-    x_ = np.copy(x)
-    for iter in range(iter):
-        prev_x = np.copy(x_)
-        for idx in range(A.shape[0]):
-            mask = np.arange(len(x_)) != idx
-            x_[idx] = 1 / (A[idx][idx]) * (b[idx] - np.sum(A[idx][mask] @ prev_x[mask]))
-        if np.linalg.norm(x_ - prev_x) < tol:
-            print("Iteration stopped, norm difference < tolerance.")
-            break
-    return x_
 
-def Jacobi(A:np.array, x:np.array, b:np.array, iter:int, tol:float=1e-5):
-    x_ = np.copy(x)
-    for iter in range(iter):
-        prev_x = np.copy(x_)
-        for idx in range(A.shape[0]):
-            mask = np.arange(len(x_)) != idx
-            x_[idx] = 1 / (A[idx][idx]) * (b[idx] - np.sum(A[idx][mask] @ prev_x[mask]))
-        if np.linalg.norm(x_ - prev_x) < tol:
-            print("Iteration stopped, norm difference < tolerance.")
-            break
-    return x_
-
-def ConjugateGradient(A:np.array, x:np.array, b:np.array):
-    pass
 
 # A = np.array([
 #     [1, -1, 2, -1, -8],
