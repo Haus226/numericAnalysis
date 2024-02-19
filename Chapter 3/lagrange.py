@@ -13,7 +13,7 @@ def LagrangeInterpolation(func:callable, *args):
                     l_i /= (args[i] - x_k)
             print("coef:", l_i)
             print("f:", func(args[i]))
-            print(func(args[i]) * l_i)
+            # print(func(args[i]) * l_i)
             approximation += func(args[i]) * l_i
         return approximation
     return interpolation
