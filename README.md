@@ -7,8 +7,8 @@ A repository that implements algorithms in the book "Numerical Analysis", Ninth 
 - [x] Chapter 3: ![100%](https://progress-bar.dev/100)
 - [ ] Chapter 4: ![0%](https://progress-bar.dev/0)
 - [ ] Chapter 5: ![22%](https://progress-bar.dev/22)
-- [ ] Chapter 6: ![90%](https://progress-bar.dev/90)
-  - Remaining algorithm that solves tridiagonal linear system
+- [ ] Chapter 6: ![100%](https://progress-bar.dev/100)
+  - Remaining algorithm that solves tridiagonal linear system [x]
 - [ ] Chapter 7: ![90%](https://progress-bar.dev/90)
   - Remaining the Conjugate Gradient Method
 - [ ] Chapter 8: ![0%](https://progress-bar.dev/0)
