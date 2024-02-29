@@ -1,4 +1,4 @@
-# numericAnalysis
+# numericAnalysis (I will not update it frequently since I am currently addicted to Pokémon Legends: Arceus)
 A repository that implements algorithms in the book "Numerical Analysis", Ninth Edition, by Richard L. Burden and J. Douglas Faires
 
 ## To-Do List:
