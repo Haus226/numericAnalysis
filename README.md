@@ -10,13 +10,14 @@ A repository that implements algorithms in the book "Numerical Analysis", Ninth 
   - [ ] Chapter 4.2
   - [x] Chapter 4.3
   - [x] Chapter 4.4
+    - [x] Visualization
   - [x] Chapter 4.5
   - [ ] Chapter 4.6
   - [ ] Chapter 4.7
   - [ ] Chapter 4.8
   - [ ] Chapter 4.9
 - [ ] Chapter 5: ![22%](https://progress-bar.dev/22)
-  - [ ] Chapter 5.3
+  - [x] Chapter 5.3
   - [ ] Chapter 5.4
   - [ ] Chapter 5.5
   - [ ] Chapter 5.6
@@ -24,6 +25,9 @@ A repository that implements algorithms in the book "Numerical Analysis", Ninth 
   - [ ] Chapter 5.8
   - [ ] Chapter 5.9
 - [x] Chapter 6: ![100%](https://progress-bar.dev/100)
+  - [x] _PLU_ Decomposition
+  - [x] _PLDL'_ Decomposition (Refer to the book _Matrix Computation_) 
+  - [x] Compute determinant 
   - [x] Remaining algorithm that solves tridiagonal linear system
 - [ ] Chapter 7: ![90%](https://progress-bar.dev/90)
   - Remaining the Conjugate Gradient Method
