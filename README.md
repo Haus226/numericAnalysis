@@ -5,7 +5,16 @@ A repository that implements algorithms in the book "Numerical Analysis", Ninth 
   Next Step: Chapter 5
 - [x] Chapter 2: ![100%](https://progress-bar.dev/100)
 - [x] Chapter 3: ![100%](https://progress-bar.dev/100)
-- [ ] Chapter 4: ![10%](https://progress-bar.dev/10)
+- [ ] Chapter 4: ![35%](https://progress-bar.dev/35)
+  - [ ] Chapter 4.1
+  - [ ] Chapter 4.2
+  - [x] Chapter 4.3
+  - [x] Chapter 4.4
+  - [x] Chapter 4.5
+  - [ ] Chapter 4.6
+  - [ ] Chapter 4.7
+  - [ ] Chapter 4.8
+  - [ ] Chapter 4.9
 - [ ] Chapter 5: ![22%](https://progress-bar.dev/22)
   - [ ] Chapter 5.3
   - [ ] Chapter 5.4
