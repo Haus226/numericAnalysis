@@ -16,7 +16,7 @@ A repository that implements algorithms in the book "Numerical Analysis", Ninth 
   - [ ] Chapter 4.7
   - [ ] Chapter 4.8
   - [ ] Chapter 4.9
-- [ ] Chapter 5: ![22%](https://progress-bar.dev/22)
+- [ ] Chapter 5: ![35%](https://progress-bar.dev/35)
   - [x] Chapter 5.3
   - [ ] Chapter 5.4
       - [ ] More in detail about _Rung-Kutta Methods_
