@@ -19,7 +19,7 @@ A repository that implements algorithms in the book "Numerical Analysis", Ninth 
 - [ ] Chapter 5: ![35%](https://progress-bar.dev/35)
   - [x] Chapter 5.3
   - [ ] Chapter 5.4
-      - [ ] More in detail about _Rung-Kutta Methods_
+      - [ ] More in detail about _Runge-Kutta Methods_
   - [ ] Chapter 5.5
   - [ ] Chapter 5.6
   - [ ] Chapter 5.7
