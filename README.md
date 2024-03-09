@@ -1,4 +1,4 @@
-# numericAnalysis (I will not update it frequently since I am currently addicted to Pokémon Legends: Arceus)
+# numericAnalysis
 A repository that implements algorithms in the book "Numerical Analysis", Ninth Edition, by Richard L. Burden and J. Douglas Faires
 
 ## To-Do List:
@@ -16,9 +16,10 @@ A repository that implements algorithms in the book "Numerical Analysis", Ninth 
   - [ ] Chapter 4.7
   - [ ] Chapter 4.8
   - [ ] Chapter 4.9
-- [ ] Chapter 5: ![22%](https://progress-bar.dev/22)
+- [ ] Chapter 5: ![35%](https://progress-bar.dev/35)
   - [x] Chapter 5.3
   - [ ] Chapter 5.4
+      - [ ] More in detail about _Runge-Kutta Methods_
   - [ ] Chapter 5.5
   - [ ] Chapter 5.6
   - [ ] Chapter 5.7
