@@ -5,21 +5,22 @@ A repository that implements algorithms in the book "Numerical Analysis", Ninth 
   Next Step: Chapter 5
 - [x] Chapter 2: ![100%](https://progress-bar.dev/100)
 - [x] Chapter 3: ![100%](https://progress-bar.dev/100)
-- [ ] Chapter 4: ![35%](https://progress-bar.dev/35)
+- [ ] Chapter 4: ![45%](https://progress-bar.dev/45)
   - [ ] Chapter 4.1
   - [ ] Chapter 4.2
   - [x] Chapter 4.3
   - [x] Chapter 4.4
     - [x] Visualization
   - [x] Chapter 4.5
-  - [ ] Chapter 4.6
+  - [x] Chapter 4.6
+    - [x] Adaptive Trapezoidal rule
   - [ ] Chapter 4.7
   - [ ] Chapter 4.8
   - [ ] Chapter 4.9
-- [ ] Chapter 5: ![35%](https://progress-bar.dev/35)
+- [ ] Chapter 5: ![40%](https://progress-bar.dev/40)
   - [x] Chapter 5.3
-  - [ ] Chapter 5.4
-      - [ ] More in detail about _Runge-Kutta Methods_
+  - [x] Chapter 5.4
+      - [x] More in detail about _Runge-Kutta Methods_
   - [ ] Chapter 5.5
   - [ ] Chapter 5.6
   - [ ] Chapter 5.7
