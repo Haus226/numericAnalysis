@@ -6,8 +6,8 @@ A repository that implements algorithms in the book "Numerical Analysis", Ninth 
 - [x] Chapter 2: ![100%](https://progress-bar.dev/100)
   - [x] Horner's method incorperate with Newton's method to find the zeros of polynomial
 - [x] Chapter 3: ![100%](https://progress-bar.dev/100)
-- [ ] Chapter 4: ![65%](https://progress-bar.dev/65)
-  - [ ] Chapter 4.1
+- [ ] Chapter 4: ![80%](https://progress-bar.dev/80)
+  - [x] Chapter 4.1
   - [ ] Chapter 4.2
   - [x] Chapter 4.3
     - [x] Newton-Cotes Formula
