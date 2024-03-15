@@ -27,7 +27,7 @@ Chapter 3: Interpolation and Polynomial Approximation ![100%](https://progress-b
 - [x] Chapter 3.2 Data Approximation and Neville's Method
 - [x] Chapter 3.3 Divided Differences
 - [x] Chapter 3.4 Hermite Interpolation
-- [x] Chapter 3.5 Cubic Splint Interpolation
+- [x] Chapter 3.5 Cubic Spline Interpolation
 </details>
       
 Chapter 4: ![80%](https://progress-bar.dev/80)
@@ -52,6 +52,7 @@ Chapter 4: ![80%](https://progress-bar.dev/80)
 Chapter 5: ![40%](https://progress-bar.dev/40)
 <details>
   <summary>Details</summary>
+  
   - [x] Chapter 5.2 Euler's Method
   - [x] Chapter 5.3 Higher-Order Taylor Methods
     - [x] Taylor's method 
@@ -81,7 +82,7 @@ Chapter 6: ![100%](https://progress-bar.dev/100)
   - [x] Remaining algorithm that solves tridiagonal linear system
 </details>
 
-Chapter 7: ![90%](https://progress-bar.dev/90)
+Chapter 7: ![85%](https://progress-bar.dev/85)
   - [x] Chapter 7.3 The Jacobi and Gauss-Siedel Iterative Techniques
   - [x] Chapter 7.4 Relaxation Techniques for Solving Linear Systems 
   - [x] Chapter 7.5 Error Bounds and Iterative Refinement
