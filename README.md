@@ -35,7 +35,8 @@ Chapter 4: ![80%](https://progress-bar.dev/80)
   <summary>Details</summary>
   
   - [x] Chapter 4.1 Numerical Differentiation
-  - [ ] Chapter 4.2 Richardson's Extrapolation
+  - [x] Chapter 4.2 Richardson's Extrapolation
+    - [x] Implement Richardson's Extrapolation algorithm for even order of $h$
   - [x] Chapter 4.3 Elements of Numerical Integration
     - [x] Newton-Cotes Formula 
   - [x] Chapter 4.4 Composite Numerical Integration
