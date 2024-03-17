@@ -30,7 +30,7 @@ Chapter 3: Interpolation and Polynomial Approximation ![100%](https://progress-b
 - [x] Chapter 3.5 Cubic Spline Interpolation
 </details>
       
-Chapter 4: ![80%](https://progress-bar.dev/80)
+Chapter 4: ![85%](https://progress-bar.dev/85)
 <details>
   <summary>Details</summary>
   
