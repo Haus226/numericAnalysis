@@ -30,7 +30,7 @@ Chapter 3: Interpolation and Polynomial Approximation ![100%](https://progress-b
 - [x] Chapter 3.5 Cubic Spline Interpolation
 </details>
       
-Chapter 4: ![85%](https://progress-bar.dev/85)
+Chapter 4: ![90%](https://progress-bar.dev/90)
 <details>
   <summary>Details</summary>
   
@@ -50,7 +50,7 @@ Chapter 4: ![85%](https://progress-bar.dev/85)
   - [ ] Chapter 4.9 Improper Integrals
 </details>
 
-Chapter 5: ![40%](https://progress-bar.dev/40)
+Chapter 5: ![50%](https://progress-bar.dev/50)
 <details>
   <summary>Details</summary>
   
@@ -59,8 +59,11 @@ Chapter 5: ![40%](https://progress-bar.dev/40)
     - [x] Taylor's method 
   - [x] Chapter 5.4 Runge-Kutta Methods
     - [x] More in detail about _Runge-Kutta Methods_
-  - [ ] Chapter 5.5 Error Control and the Runge-Kutta-Fehlberg Method
+  - [x] Chapter 5.5 Error Control and the Runge-Kutta-Fehlberg Method
+    - [x] Implement Generalized Runge-Kutta Embedded 
   - [ ] Chapter 5.6 Multistep Method
+    - [x] Generalized Adams-Bashforth Algorithm
+    - [ ] Milne-Simpson Predictor-Corrector 
   - [ ] Chapter 5.7 Variable Step-Size Multistep Method
   - [ ] Chapter 5.8 Extrapolation
   - [ ] Chapter 5.9 Higher-Order Equations and Systems of Differential Equations
