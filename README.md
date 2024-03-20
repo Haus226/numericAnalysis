@@ -50,7 +50,7 @@ Chapter 4: ![90%](https://progress-bar.dev/90)
   - [ ] Chapter 4.9 Improper Integrals
 </details>
 
-Chapter 5: ![50%](https://progress-bar.dev/50)
+Chapter 5: ![70%](https://progress-bar.dev/70)
 <details>
   <summary>Details</summary>
   
@@ -61,10 +61,11 @@ Chapter 5: ![50%](https://progress-bar.dev/50)
     - [x] More in detail about _Runge-Kutta Methods_
   - [x] Chapter 5.5 Error Control and the Runge-Kutta-Fehlberg Method
     - [x] Implement Generalized Runge-Kutta Embedded 
-  - [ ] Chapter 5.6 Multistep Method
+  - [x] Chapter 5.6 Multistep Method
     - [x] Generalized Adams-Bashforth Algorithm
-    - [ ] Milne-Simpson Predictor-Corrector 
-  - [ ] Chapter 5.7 Variable Step-Size Multistep Method
+    - [x] Milne-Simpson Predictor-Corrector 
+  - [x] Chapter 5.7 Variable Step-Size Multistep Method
+    - [x] Generalized Variable Step-Size MultiStep Method
   - [ ] Chapter 5.8 Extrapolation
   - [ ] Chapter 5.9 Higher-Order Equations and Systems of Differential Equations
   - [ ] Chapter 5.11 Stiff Differential Equations
