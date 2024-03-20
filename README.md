@@ -88,10 +88,14 @@ Chapter 6: ![100%](https://progress-bar.dev/100)
 </details>
 
 Chapter 7: ![85%](https://progress-bar.dev/85)
+<details>
+  <summary>Details</summary>
+  
   - [x] Chapter 7.3 The Jacobi and Gauss-Siedel Iterative Techniques
   - [x] Chapter 7.4 Relaxation Techniques for Solving Linear Systems 
   - [x] Chapter 7.5 Error Bounds and Iterative Refinement
   - [ ] Chaoter 7.6 The Conjugate Gradient Method
+</details>
 
 Chapter 8: ![0%](https://progress-bar.dev/0)
 
