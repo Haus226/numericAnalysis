@@ -30,7 +30,7 @@ Chapter 3: Interpolation and Polynomial Approximation ![100%](https://progress-b
 - [x] Chapter 3.5 Cubic Spline Interpolation
 </details>
       
-Chapter 4: ![90%](https://progress-bar.dev/90)
+Chapter 4: Numerical Differentiation and Integration ![90%](https://progress-bar.dev/90)
 <details>
   <summary>Details</summary>
   
@@ -72,7 +72,7 @@ Chapter 5: ![80%](https://progress-bar.dev/80)
   - [ ] Chapter 5.11 Stiff Differential Equations
 </details>
 
-Chapter 6: ![100%](https://progress-bar.dev/100)
+Chapter 6: Direct Method for Solving Linear Systems ![100%](https://progress-bar.dev/100)
 <details>
   <summary>Details</summary>
 
@@ -88,18 +88,22 @@ Chapter 6: ![100%](https://progress-bar.dev/100)
   - [x] Remaining algorithm that solves tridiagonal linear system
 </details>
 
-Chapter 7: ![85%](https://progress-bar.dev/85)
+Chapter 7: Iterative Techniques in Matrix Algebra ![85%](https://progress-bar.dev/85)
+<details>
+  <summary>Details</summary>
+  
   - [x] Chapter 7.3 The Jacobi and Gauss-Siedel Iterative Techniques
   - [x] Chapter 7.4 Relaxation Techniques for Solving Linear Systems 
   - [x] Chapter 7.5 Error Bounds and Iterative Refinement
   - [ ] Chaoter 7.6 The Conjugate Gradient Method
+</details>
 
-Chapter 8: ![0%](https://progress-bar.dev/0)
+Chapter 8: Approximation Theory ![0%](https://progress-bar.dev/0)
 
-Chapter 9: ![0%](https://progress-bar.dev/0)
+Chapter 9: Approximating Eigenvalues ![0%](https://progress-bar.dev/0)
 
-Chapter 10: ![0%](https://progress-bar.dev/0)
+Chapter 10: Numerical Solutions of Nonlinear Systems of Equations ![0%](https://progress-bar.dev/0)
 
-Chapter 11: ![0%](https://progress-bar.dev/0)
+Chapter 11: Boundary-Value Problems for ODE ![0%](https://progress-bar.dev/0)
 
-Chapter 12: ![0%](https://progress-bar.dev/0)
+Chapter 12: Numerical Solutionns to PDE ![0%](https://progress-bar.dev/0)
