@@ -50,7 +50,7 @@ Chapter 4: ![90%](https://progress-bar.dev/90)
   - [ ] Chapter 4.9 Improper Integrals
 </details>
 
-Chapter 5: ![70%](https://progress-bar.dev/70)
+Chapter 5: ![80%](https://progress-bar.dev/80)
 <details>
   <summary>Details</summary>
   
@@ -64,6 +64,7 @@ Chapter 5: ![70%](https://progress-bar.dev/70)
   - [x] Chapter 5.6 Multistep Method
     - [x] Generalized Adams-Bashforth Algorithm
     - [x] Milne-Simpson Predictor-Corrector 
+    - [x] Generalized Predictor-Corrector Using Newton-Cotes Formulae
   - [x] Chapter 5.7 Variable Step-Size Multistep Method
     - [x] Generalized Variable Step-Size MultiStep Method
   - [ ] Chapter 5.8 Extrapolation
