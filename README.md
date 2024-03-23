@@ -41,6 +41,7 @@ Chapter 4: Numerical Differentiation and Integration ![90%](https://progress-bar
     - [x] Newton-Cotes Formula 
   - [x] Chapter 4.4 Composite Numerical Integration
     - [x] Visualization
+    - [x] General Composite Integral Algorithm
   - [x] Chapter 4.5 Romberg Integration
   - [x] Chapter 4.6 Adaptive Quadrature Methods
     - [x] Adaptive Trapezoidal rule
