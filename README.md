@@ -45,6 +45,7 @@ Chapter 4: Numerical Differentiation and Integration ![90%](https://progress-bar
   - [x] Chapter 4.5 Romberg Integration
   - [x] Chapter 4.6 Adaptive Quadrature Methods
     - [x] Adaptive Trapezoidal rule
+    - [x] Adaptive Closed Newton-Cotes
   - [x] Chapter 4.7 Gaussian Quadrature
     - [x] Gaussian-Legendre Quadrature
   - [ ] Chapter 4.8 Multiple Integrals
