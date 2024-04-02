@@ -2,7 +2,7 @@
 A repository that implements algorithms in the book "Numerical Analysis", Ninth Edition, by Richard L. Burden and J. Douglas Faires
 
 ## To-Do List:
-Next Step: Chapter 4
+Next Step: Chapter 5
 
 Chapter 2: Solutions of Equations in One Variable ![100%](https://progress-bar.dev/100)
 <details>
@@ -30,7 +30,7 @@ Chapter 3: Interpolation and Polynomial Approximation ![100%](https://progress-b
 - [x] Chapter 3.5 Cubic Spline Interpolation
 </details>
       
-Chapter 4: Numerical Differentiation and Integration ![90%](https://progress-bar.dev/90)
+Chapter 4: Numerical Differentiation and Integration ![100%](https://progress-bar.dev/100)
 <details>
   <summary>Details</summary>
   
@@ -48,8 +48,8 @@ Chapter 4: Numerical Differentiation and Integration ![90%](https://progress-bar
     - [x] Adaptive Closed Newton-Cotes
   - [x] Chapter 4.7 Gaussian Quadrature
     - [x] Gaussian-Legendre Quadrature
-  - [ ] Chapter 4.8 Multiple Integrals
-  - [ ] Chapter 4.9 Improper Integrals
+  - [x] Chapter 4.8 Multiple Integrals
+    - [x] Double and Triple Closed Newton-Cotes
 </details>
 
 Chapter 5: ![80%](https://progress-bar.dev/80)
