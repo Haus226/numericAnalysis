@@ -52,7 +52,7 @@ Chapter 4: Numerical Differentiation and Integration ![100%](https://progress-ba
     - [x] Double and Triple Closed Newton-Cotes
 </details>
 
-Chapter 5: ![80%](https://progress-bar.dev/80)
+Chapter 5: ![90%](https://progress-bar.dev/90)
 <details>
   <summary>Details</summary>
   
@@ -70,8 +70,8 @@ Chapter 5: ![80%](https://progress-bar.dev/80)
   - [x] Chapter 5.7 Variable Step-Size Multistep Method
     - [x] Generalized Variable Step-Size MultiStep Method
   - [ ] Chapter 5.8 Extrapolation
-  - [ ] Chapter 5.9 Higher-Order Equations and Systems of Differential Equations
-  - [ ] Chapter 5.11 Stiff Differential Equations
+  - [x] Chapter 5.9 Higher-Order Equations and Systems of Differential Equations
+  - [x] Chapter 5.11 Stiff Differential Equations
 </details>
 
 Chapter 6: Direct Method for Solving Linear Systems ![100%](https://progress-bar.dev/100)
