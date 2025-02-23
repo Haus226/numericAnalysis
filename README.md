@@ -1,12 +1,50 @@
 # numericAnalysis
 A repository that implements algorithms in the book "Numerical Analysis", Ninth Edition, by Richard L. Burden and J. Douglas Faires
 
+<style>
+.progress-wrapper {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-left: 12px;
+}
+
+.progress-bar {
+    width: 100px;
+    height: 16px;
+    background-color: #f0f0f0;
+    border-radius: 8px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.progress-fill {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    background-color: #4CAF50;
+    transition: width 0.3s ease-in-out;
+}
+
+.progress-text {
+    color: #000;
+    font-size: 12px;
+    z-index: 1;
+    mix-blend-mode: difference;
+    color: white;
+}
+</style>
+
 ## To-Do List:
 Next Step: Chapter 5
 
-Chapter 2: Solutions of Equations in One Variable ![100%](https://progress-bar.dev/100)
+## Chapter 2: Solutions of Equations in One Variable 
 <details>
-  <summary>Details</summary>
+  <summary>Details <div class="progress-wrapper"><div class="progress-bar"><div class="progress-fill" style="width: 100%"></div><span class="progress-text">100%</span></div></div></summary>
   
   - [x] Chapter 2.1 The Bisection Method
   - [x] Chapter 2.2 Fixed-Point Iteration
@@ -19,20 +57,23 @@ Chapter 2: Solutions of Equations in One Variable ![100%](https://progress-bar.d
     - [x] Horner's method incorperate with Newton's method to find the zeros of polynomial
 </details>
 
-Chapter 3: Interpolation and Polynomial Approximation ![100%](https://progress-bar.dev/100)
+## Chapter 3: Interpolation and Polynomial Approximation
 <details>
-  <summary>Details</summary>
+  <summary>Details <div class="progress-wrapper"><div class="progress-bar"><div class="progress-fill" style="width: 100%"></div><span class="progress-text">100%</span></div></div></summary>
   
 - [x] Chapter 3.1 Interpolation and the Lagrange Polynomial
 - [x] Chapter 3.2 Data Approximation and Neville's Method
 - [x] Chapter 3.3 Divided Differences
 - [x] Chapter 3.4 Hermite Interpolation
 - [x] Chapter 3.5 Cubic Spline Interpolation
+- [x] Beyond the Book: 
+    -[x] Bezier Curve
+    -[x] Non-Uniform Rational B-Spline
 </details>
       
-Chapter 4: Numerical Differentiation and Integration ![100%](https://progress-bar.dev/100)
+## Chapter 4: Numerical Differentiation and Integration
 <details>
-  <summary>Details</summary>
+  <summary>Details <div class="progress-wrapper"><div class="progress-bar"><div class="progress-fill" style="width: 100%"></div><span class="progress-text">100%</span></div></div></summary>
   
   - [x] Chapter 4.1 Numerical Differentiation
   - [x] Chapter 4.2 Richardson's Extrapolation
@@ -52,9 +93,9 @@ Chapter 4: Numerical Differentiation and Integration ![100%](https://progress-ba
     - [x] Double and Triple Closed Newton-Cotes
 </details>
 
-Chapter 5: ![90%](https://progress-bar.dev/90)
+## Chapter 5: Initial-Value Problems for ODEs
 <details>
-  <summary>Details</summary>
+  <summary>Details <div class="progress-wrapper"><div class="progress-bar"><div class="progress-fill" style="width: 90%"></div><span class="progress-text">90%</span></div></div></summary>
   
   - [x] Chapter 5.2 Euler's Method
   - [x] Chapter 5.3 Higher-Order Taylor Methods
@@ -74,9 +115,9 @@ Chapter 5: ![90%](https://progress-bar.dev/90)
   - [x] Chapter 5.11 Stiff Differential Equations
 </details>
 
-Chapter 6: Direct Method for Solving Linear Systems ![100%](https://progress-bar.dev/100)
+## Chapter 6: Direct Method for Solving Linear Systems
 <details>
-  <summary>Details</summary>
+  <summary>Details <div class="progress-wrapper"><div class="progress-bar"><div class="progress-fill" style="width: 100%"></div><span class="progress-text">100%</span></div></div></summary>
 
   - [x] Chapter 6.1 Linear Systems of Equations
   - [x] Chapter 6.3 Linear Algebra and Matrix Inversion
@@ -90,9 +131,9 @@ Chapter 6: Direct Method for Solving Linear Systems ![100%](https://progress-bar
   - [x] Remaining algorithm that solves tridiagonal linear system
 </details>
 
-Chapter 7: Iterative Techniques in Matrix Algebra ![100%](https://progress-bar.dev/100)
+## Chapter 7: Iterative Techniques in Matrix Algebra
 <details>
-  <summary>Details</summary>
+  <summary>Details <div class="progress-wrapper"><div class="progress-bar"><div class="progress-fill" style="width: 100%"></div><span class="progress-text">100%</span></div></div></summary>
   
   - [x] Chapter 7.3 The Jacobi and Gauss-Siedel Iterative Techniques
   - [x] Chapter 7.4 Relaxation Techniques for Solving Linear Systems 
@@ -100,16 +141,32 @@ Chapter 7: Iterative Techniques in Matrix Algebra ![100%](https://progress-bar.d
     - [x] Conjugate Gradient Method
     - [x] Biconjugate Gradient Method
     - [x] Biconjuagte Gradient Stabilized Method 
-    - [x] Minimal Residual Method
+    - [x] Conjugate Gradient Squared Method 
+    - [ ] Minimal Residual Method
     - [ ] Generalized Minimal Residual Method
 </details>
 
-Chapter 8: Approximation Theory ![0%](https://progress-bar.dev/0)
+## Chapter 8: Approximation Theory
+<details>
+  <summary>Details <div class="progress-wrapper"><div class="progress-bar"><div class="progress-fill" style="width: 0%"></div><span class="progress-text">0%</span></div></div></summary>
+</details>
 
-Chapter 9: Approximating Eigenvalues ![0%](https://progress-bar.dev/0)
+## Chapter 9: Approximating Eigenvalues
+<details>
+  <summary>Details <div class="progress-wrapper"><div class="progress-bar"><div class="progress-fill" style="width: 0%"></div><span class="progress-text">0%</span></div></div></summary>
+</details>
 
-Chapter 10: Numerical Solutions of Nonlinear Systems of Equations ![0%](https://progress-bar.dev/0)
+## Chapter 10: Numerical Solutions of Nonlinear Systems of Equations
+<details>
+  <summary>Details <div class="progress-wrapper"><div class="progress-bar"><div class="progress-fill" style="width: 0%"></div><span class="progress-text">0%</span></div></div></summary>
+</details>
 
-Chapter 11: Boundary-Value Problems for ODE ![0%](https://progress-bar.dev/0)
+## Chapter 11: Boundary-Value Problems for ODE
+<details>
+  <summary>Details <div class="progress-wrapper"><div class="progress-bar"><div class="progress-fill" style="width: 0%"></div><span class="progress-text">0%</span></div></div></summary>
+</details>
 
-Chapter 12: Numerical Solutionns to PDE ![0%](https://progress-bar.dev/0)
+## Chapter 12: Numerical Solutionns to PDE
+<details>
+  <summary>Details <div class="progress-wrapper"><div class="progress-bar"><div class="progress-fill" style="width: 0%"></div><span class="progress-text">0%</span></div></div></summary>
+</details>
