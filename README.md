@@ -1,6 +1,9 @@
 # numericAnalysis
 A repository that implements algorithms in the book "Numerical Analysis", Ninth Edition, by Richard L. Burden and J. Douglas Faires
 
+
+The progress bar css but unfortunately Github is not allowing the style tag.
+
 <style>
 .progress-wrapper {
     display: inline-flex;
