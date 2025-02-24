@@ -172,6 +172,10 @@
             <!-- Animation Controls Section -->
             <div class="input-section">
                 <h3>Animation Controls</h3>
+                <label>
+                    Steps:
+                    <input type="number" id="stepsInput" value="1000" min="100" max="10000" step="100">
+                </label>
                 <div class="slider-container">
                     <label>Animation Speed</label>
                     <input type="range" id="animationSpeed" min="1" max="100" value="50">
@@ -238,6 +242,10 @@
                 window.bezierEditor.updatePoints());
             document.getElementById('resetScale').addEventListener('click', () => 
                 window.bezierEditor.resetScale());
+            document.getElementById('stepsInput').addEventListener('change', (e) => {
+                window.bezierEditor.steps = parseInt(e.target.value);
+                window.bezierEditor.drawCurve();
+            });
 
             window.bezierEditor.drawCurve();
         

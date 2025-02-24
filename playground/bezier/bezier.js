@@ -11,6 +11,7 @@ class BezierEditor {
         this.scale = 1.0;
         this.offset = { x: 0, y: 0 };
         this.isPaused = false;
+        this.steps = 1000;
 
         this.setupEventListeners();
     }
@@ -130,10 +131,12 @@ class BezierEditor {
             // Draw construction lines for current animation progress
             this.drawConstructionLines(this.controlPoints, this.animationProgress);
             
-            // Draw curve up to current progress
+            // Draw curve up to current progress with more steps
             this.ctx.beginPath();
             this.ctx.moveTo(this.controlPoints[0].x, this.controlPoints[0].y);
-            for (let t = 0; t <= this.animationProgress; t += 0.01) {
+            const stepSize = this.animationProgress / this.steps;
+            for (let i = 0; i <= this.steps; i++) {
+                const t = i * stepSize;
                 const point = this.deCasteljau(this.controlPoints, t);
                 this.ctx.lineTo(point.x, point.y);
             }
@@ -142,10 +145,12 @@ class BezierEditor {
             this.ctx.stroke();
             this.ctx.lineWidth = 1;
         } else {
-            // Draw complete curve
+            // Draw complete curve with more steps
             this.ctx.beginPath();
             this.ctx.moveTo(this.controlPoints[0].x, this.controlPoints[0].y);
-            for (let t = 0; t <= 1; t += 0.01) {
+            const stepSize = 1 / this.steps;
+            for (let i = 0; i <= this.steps; i++) {
+                const t = i * stepSize;
                 const point = this.deCasteljau(this.controlPoints, t);
                 this.ctx.lineTo(point.x, point.y);
             }
