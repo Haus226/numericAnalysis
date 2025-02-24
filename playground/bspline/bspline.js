@@ -236,10 +236,10 @@ class BSplineEditor {
         for (let i = 0; i < this.controlPoints.length; i++) {
             const p = this.controlPoints[i];
             const dist = Math.hypot(pos.x - p.x, pos.y - p.y);
-            if (dist < 6) {
+            if (dist <=  18 / this.scale) {
                 pointIndex = i;
                 break;
-            } else if (dist < p.weight * 30 && dist > 6) {
+            } else if (dist < p.weight  * 6 * 6 / this.scale && dist > 18 / this.scale) {
                 weightIndex = i;
                 break;
             }
@@ -286,10 +286,10 @@ class BSplineEditor {
         let hovering = false;
         this.controlPoints.forEach(point => {
             const dist = Math.hypot(pos.x - point.x, pos.y - point.y);
-            if (dist < 6) {
+            if (dist <= 18 / this.scale) {
                 document.body.style.cursor = 'move';
                 hovering = true;
-            } else if (dist < point.weight * 30 && dist > 6) {
+            } else if (dist < point.weight * 6 * 6 / this.scale && dist > 18 / this.scale) {
                 document.body.style.cursor = 'ew-resize'; // Changed cursor for weight adjustment
                 hovering = true;
             }
@@ -468,7 +468,7 @@ class BSplineEditor {
     drawCoordinateLabel(x, y, text, offset = {x: 10, y: -10}) {
         this.ctx.save();
         this.ctx.fillStyle = 'rgba(0,0,0,0.7)';
-        this.ctx.font = `${12/this.scale}px Arial`;
+        this.ctx.font = `${10/this.scale}px Arial`;
         this.ctx.fillText(text, x + offset.x, y + offset.y);
         this.ctx.restore();
     }
@@ -626,7 +626,7 @@ class BSplineEditor {
             const weightText = point.weight >= 10 ? 
                 point.weight.toFixed(0) : 
                 point.weight.toFixed(1);
-            this.drawCoordinateLabel(point.x + point.weight * 30, point.y,
+            this.drawCoordinateLabel(point.x + point.weight * 6 * 6 / this.scale, point.y,
                 weightText, {x: 5, y: 0});
 
             // Draw control point label above point
