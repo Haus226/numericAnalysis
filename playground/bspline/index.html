@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>B-Spline Editor</title>
+    <style>
+        :root {
+            --primary-color: #2196F3;
+            --secondary-color: #1976D2;
+            --background-color: #f8f9fa;
+            --card-background: #ffffff;
+            --text-color: #333333;
+            --border-radius: 8px;
+            --shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: var(--background-color);
+            color: var(--text-color);
+        }
+
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+            padding: 20px;
+            display: flex;
+            gap: 24px;
+        }
+
+        .left-panel {
+            width: 400px;
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .right-panel {
+            flex-grow: 1;
+            min-width: 0;
+        }
+
+        .canvas-container {
+            background: var(--card-background);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            padding: 16px;
+            margin-bottom: 24px;
+            height: 100%; /* Adjust to fill panel */
+        }
+
+        .input-section {
+            background: var(--card-background);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+
+        .input-section h3 {
+            margin-top: 0;
+            color: var(--secondary-color);
+            font-weight: 500;
+        }
+
+        .controls {
+            background: var(--card-background);
+            border-radius: var(--border-radius);
+            padding: 16px;
+            margin-bottom: 24px;
+            box-shadow: var(--shadow);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            align-items: center;
+            flex-direction: column; /* Stack controls vertically */
+        }
+
+        button {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background-color 0.2s;
+        }
+
+        button:hover {
+            background: var(--secondary-color);
+        }
+
+        button.active {
+            background: var(--secondary-color);
+        }
+
+        textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            resize: vertical;
+            font-family: monospace;
+            margin: 8px 0;
+        }
+
+        input[type="number"] {
+            padding: 6px 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            width: 60px;
+        }
+
+        input[type="checkbox"] {
+            margin-right: 8px;
+        }
+
+        input[type="range"] {
+            width: 200px;
+        }
+
+        .instructions {
+            background: var(--card-background);
+            border-radius: var(--border-radius);
+            padding: 16px;
+            box-shadow: var(--shadow);
+        }
+
+        .instructions p {
+            margin: 8px 0;
+            color: #666;
+            line-height: 1.5;
+        }
+
+        label {
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .slider-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        canvas {
+            width: 100%;
+            height: 100%;
+            border-radius: 4px;
+        }
+
+        textarea#pointsInput {
+            height: 200px; /* Make control points input box taller */
+        }
+
+        .button-row {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .checkbox-column {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .editor-container {
+            display: flex;
+            flex-direction: column;  /* Stack containers vertically */
+            width: 100%; 
+            gap: 20px;
+        }
+
+        .editor-side {
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .params-row {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 12px;
+        }
+
+        .slider-row {
+            margin-bottom: 12px;
+        }
+
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="left-panel">
+            <div class="input-section">
+                <h3>B-Spline Animation</h3>
+                <div class="input-grid">
+                    <div>
+                        <label>Control Points (x,y,weight):</label>
+                        <textarea id="pointsInput" placeholder="0,0,1.0&#10;1,1,1.0&#10;2,0,1.0"></textarea>
+                        <button id="applyPoints">Apply Points</button>
+                    </div>
+                    <div>
+                        <label>Knot Vector:</label>
+                        <textarea id="knotsInput" placeholder="Auto-generated if empty"></textarea>
+                        <button id="applyKnots">Apply Knots</button>
+                    </div>
+                    <p></p>
+                    <div class="button-row">
+                        <button id="animationClear">Clear All</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="controls">
+                <div class="editor-container">
+                    <div class="editor-side">
+                        <!-- Top container - animation controls -->
+                        <div class="params-row">
+                            <label>
+                                Degree:
+                                <input type="number" id="degreeInput" value="3" min="1" max="8">
+                            </label>
+                            <label>
+                                Steps:
+                                <input type="number" id="stepsInput" value="1000" min="100" max="10000" step="100">
+                            </label>
+                        </div>
+
+                        <div class="slider-row">
+                            <label>Animation Speed:</label>
+                            <input type="range" id="animationSpeed" min="1" max="100" value="50">
+                        </div>
+
+                        <div class="button-row">
+                            <button id="animationStart">Start</button>
+                            <button id="animationPause">Pause</button>
+                            <button id="animationResume">Resume</button>
+                            <button id="resetScale">Reset Zoom</button>
+                        </div>
+                    </div>
+
+                    <div class="editor-side">
+                        <!-- Bottom container - checkboxes -->
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="clampStart">
+                            <label>Clamp Start</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="clampEnd"> 
+                            <label>Clamp End</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="showConstruction" checked>
+                            <label>Show Construction</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="instructions">
+                <p>• Click canvas to add control points</p>
+                <p>• Right click to remove control points (when move cursor shown)</p>
+                <p>• Blue circles show weights - drag to adjust</p>
+                <p>• Red dots are control points - drag to move</p>
+                <p>• Knot vector auto-generated if not specified</p>
+
+            </div>
+        </div>
+
+        <div class="right-panel">
+            <div class="canvas-container">
+                <canvas id="canvas"></canvas>
+            </div>
+        </div>
+    </div>
+    <script src="bspline.js"></script>
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            function resizeCanvas() {
+                const container = canvas.parentElement;
+                canvas.width = container.clientWidth;
+                canvas.height = container.clientHeight;
+            }
+
+            window.addEventListener('resize', resizeCanvas);
+            resizeCanvas();
+
+            // Create editor instance
+            window.bsplineEditor = new BSplineEditor();
+
+            // Setup button handlers
+            document.getElementById('applyPoints').addEventListener('click', () => 
+                window.bsplineEditor.updatePoints());
+
+            document.getElementById('applyKnots').addEventListener('click', () => 
+                window.bsplineEditor.updateKnots());
+
+            document.getElementById('stepsInput').addEventListener('change', (e) => {
+                window.bsplineEditor.steps = parseInt(e.target.value);
+                window.bsplineEditor.drawCurve();
+            });
+
+            // Setup animation controls
+            document.getElementById('animationStart').addEventListener('click', () => 
+                window.bsplineEditor.startAnimation());
+
+            document.getElementById('animationPause').addEventListener('click', () => 
+                window.bsplineEditor.pauseAnimation());
+
+            document.getElementById('animationResume').addEventListener('click', () => 
+                window.bsplineEditor.resumeAnimation());
+
+            document.getElementById('animationClear').addEventListener('click', () => 
+                window.bsplineEditor.clearAll());
+
+            // Setup degree input
+            document.getElementById('degreeInput').addEventListener('change', (e) => {
+                window.bsplineEditor.degree = parseInt(e.target.value);
+                window.bsplineEditor.updateKnots();
+                window.bsplineEditor.drawCurve();
+            });
+
+            document.getElementById('resetScale').addEventListener('click', () => 
+                window.bsplineEditor.resetScale());
+
+            // Setup clamp controls
+            ['clampStart', 'clampEnd', 'showConstruction'].forEach(id => {
+                document.getElementById(id).addEventListener('change', () => {
+                    window.bsplineEditor.updateFromCheckboxes();
+                    window.bsplineEditor.drawCurve();
+                });
+            });
+
+            // Initial draw
+            window.bsplineEditor.drawCurve();
+        });
+    </script>
+</body>
+</html>
