@@ -200,10 +200,7 @@
             margin-bottom: 12px;
         }
 
-        .button-row {
-            display: flex;
-            gap: 8px;
-        }
+
     </style>
 </head>
 <body>
@@ -221,6 +218,10 @@
                         <label>Knot Vector:</label>
                         <textarea id="knotsInput" placeholder="Auto-generated if empty"></textarea>
                         <button id="applyKnots">Apply Knots</button>
+                    </div>
+                    <p></p>
+                    <div class="button-row">
+                        <button id="animationClear">Clear All</button>
                     </div>
                 </div>
             </div>
@@ -249,7 +250,7 @@
                             <button id="animationStart">Start</button>
                             <button id="animationPause">Pause</button>
                             <button id="animationResume">Resume</button>
-                            <button id="animationClear">Clear All</button>
+                            <button id="resetScale">Reset Zoom</button>
                         </div>
                     </div>
 
@@ -311,7 +312,7 @@
 
             document.getElementById('stepsInput').addEventListener('change', (e) => {
                 window.bsplineEditor.steps = parseInt(e.target.value);
-                window.bsplineEditor.redraw();
+                window.bsplineEditor.drawCurve();
             });
 
             // Setup animation controls
@@ -331,19 +332,22 @@
             document.getElementById('degreeInput').addEventListener('change', (e) => {
                 window.bsplineEditor.degree = parseInt(e.target.value);
                 window.bsplineEditor.updateKnots();
-                window.bsplineEditor.redraw();
+                window.bsplineEditor.drawCurve();
             });
+
+            document.getElementById('resetScale').addEventListener('click', () => 
+                window.bsplineEditor.resetScale());
 
             // Setup clamp controls
             ['clampStart', 'clampEnd', 'showConstruction'].forEach(id => {
                 document.getElementById(id).addEventListener('change', () => {
                     window.bsplineEditor.updateFromCheckboxes();
-                    window.bsplineEditor.redraw();
+                    window.bsplineEditor.drawCurve();
                 });
             });
 
             // Initial draw
-            window.bsplineEditor.redraw();
+            window.bsplineEditor.drawCurve();
         });
     </script>
 </body>

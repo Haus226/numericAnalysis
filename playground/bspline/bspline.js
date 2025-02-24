@@ -25,6 +25,12 @@ class BSplineEditor {
         this.canvas.addEventListener('mouseup', () => this.dragState = null);
         this.canvas.addEventListener('mouseleave', () => this.dragState = null);
     }
+ 
+    resetScale() {
+        this.scale = 1.0;
+        this.offset = { x: 0, y: 0 };
+        this.drawCurve();
+    }
 
     setupEventListeners() {
         // Canvas events
@@ -38,20 +44,20 @@ class BSplineEditor {
         document.getElementById('degreeInput').addEventListener('change', (e) => {
             this.degree = parseInt(e.target.value);
             this.updateKnots();
-            this.redraw();
+            this.drawCurve();
         });
 
         // Add clamp controls
         document.getElementById('clampStart').addEventListener('change', (e) => {
             this.clampStart = e.target.checked;
             this.updateKnots();
-            this.redraw();
+            this.drawCurve();
         });
 
         document.getElementById('clampEnd').addEventListener('change', (e) => {
             this.clampEnd = e.target.checked;
             this.updateKnots();
-            this.redraw();
+            this.drawCurve();
         });
 
         // Animation control buttons
@@ -77,7 +83,7 @@ class BSplineEditor {
                 });
             
             this.updateKnots();
-            this.redraw();
+            this.drawCurve();
         });
 
         document.getElementById('applyKnots').addEventListener('click', () => {
@@ -86,12 +92,15 @@ class BSplineEditor {
                 .map(k => k.trim())
                 .filter(k => k)
                 .map(Number);
-            this.redraw();
+            this.drawCurve();
         });
     }
 
     setupZoomPan() {
         this.canvas.addEventListener('wheel', (e) => {
+            // Add check for points
+            if (this.controlPoints.length === 0) return;
+
             e.preventDefault();
             const mouseX = e.clientX - this.canvas.getBoundingClientRect().left;
             const mouseY = e.clientY - this.canvas.getBoundingClientRect().top;
@@ -108,7 +117,7 @@ class BSplineEditor {
             this.offset.x = mouseX - startX * this.scale;
             this.offset.y = mouseY - startY * this.scale;
 
-            this.redraw();
+            this.drawCurve();
         });
 
         this.canvas.addEventListener('mousedown', (e) => {
@@ -123,7 +132,7 @@ class BSplineEditor {
                 this.offset.x += e.clientX - this.lastMousePos.x;
                 this.offset.y += e.clientY - this.lastMousePos.y;
                 this.lastMousePos = { x: e.clientX, y: e.clientY };
-                this.redraw();
+                this.drawCurve();
             }
         });
 
@@ -187,13 +196,13 @@ class BSplineEditor {
         this.controlPoints.push({ x, y, weight: 1.0 });
         this.updateKnots();
         this.updateInputBoxes(); // Make sure point shows in input box immediately
-        this.redraw();
+        this.drawCurve();
     }
 
     clearPoints() {
         this.controlPoints = [];
         this.knots = [];
-        this.redraw();
+        this.drawCurve();
     }
 
     clearAll() {
@@ -205,7 +214,7 @@ class BSplineEditor {
         this.dragState = null;
         this.lastMousePos = null;
         this.updateInputBoxes();
-        this.redraw();
+        this.drawCurve();
     }
 
     handleMouseDown(e) {
@@ -222,42 +231,39 @@ class BSplineEditor {
 
         // Check if clicking near existing point
         let pointIndex = -1;
+        let weightIndex = -1;
+
         for (let i = 0; i < this.controlPoints.length; i++) {
             const p = this.controlPoints[i];
             const dist = Math.hypot(pos.x - p.x, pos.y - p.y);
             if (dist < 6) {
                 pointIndex = i;
                 break;
+            } else if (dist < p.weight * 30 && dist > 6) {
+                weightIndex = i;
+                break;
             }
         }
 
-        if (pointIndex >= 0) {
-            if (e.button === 2) { // Right click
-                e.preventDefault();
-                this.controlPoints.splice(pointIndex, 1);
+        if (e.button === 2) { // Right click to delete
+            e.preventDefault();
+            if (pointIndex >= 0 || weightIndex >= 0) {
+                const indexToRemove = pointIndex >= 0 ? pointIndex : weightIndex;
+                this.controlPoints.splice(indexToRemove, 1);
                 this.updateKnots();
-                this.redraw();
+                this.drawCurve();
                 this.updateInputBoxes();
-                return;
             }
-            this.dragState = { type: 'point', index: pointIndex };
-        } else {
-            // Check if clicking weight circle
-            let weightIndex = -1;
-            for (let i = 0; i < this.controlPoints.length; i++) {
-                const p = this.controlPoints[i];
-                const dist = Math.hypot(pos.x - p.x, pos.y - p.y);
-                if (dist < p.weight * 30 && dist > 6) {
-                    weightIndex = i;
-                    break;
-                }
-            }
+            return;
+        }
 
-            if (weightIndex >= 0) {
-                this.dragState = { type: 'weight', index: weightIndex };
-            } else {
-                this.addControlPoint(pos.x, pos.y);
-            }
+        // Handle left click for dragging
+        if (pointIndex >= 0) {
+            this.dragState = { type: 'point', index: pointIndex };
+        } else if (weightIndex >= 0) {
+            this.dragState = { type: 'weight', index: weightIndex };
+        } else {
+            this.addControlPoint(pos.x, pos.y);
         }
         this.updateInputBoxes();
     }
@@ -267,7 +273,7 @@ class BSplineEditor {
             this.offset.x += e.clientX - this.lastMousePos.x;
             this.offset.y += e.clientY - this.lastMousePos.y;
             this.lastMousePos = { x: e.clientX, y: e.clientY };
-            this.redraw();
+            this.drawCurve();
             return;
         }
 
@@ -304,7 +310,7 @@ class BSplineEditor {
             // Remove upper limit on weight, keep minimum of 0.1
             point.weight = Math.max(0.1, distance / 30);
         }
-        this.redraw();
+        this.drawCurve();
         this.updateInputBoxes();
     }
 
@@ -462,7 +468,7 @@ class BSplineEditor {
     drawCoordinateLabel(x, y, text, offset = {x: 10, y: -10}) {
         this.ctx.save();
         this.ctx.fillStyle = 'rgba(0,0,0,0.7)';
-        this.ctx.font = '12px Arial';
+        this.ctx.font = `${12/this.scale}px Arial`;
         this.ctx.fillText(text, x + offset.x, y + offset.y);
         this.ctx.restore();
     }
@@ -499,13 +505,13 @@ class BSplineEditor {
         this.animationProgress += speed;
         
         if (this.animationProgress <= 1) {
-            this.redraw();
+            this.drawCurve();
             this.animationFrame = requestAnimationFrame(() => this.animate());
         } else {
             this.isAnimating = false;
             this.isPaused = false;
             this.animationProgress = 1;
-            this.redraw();
+            this.drawCurve();
         }
     }
 
@@ -515,7 +521,7 @@ class BSplineEditor {
         }
         this.isAnimating = false;
         this.animationProgress = 0;
-        this.redraw();
+        this.drawCurve();
     }
 
     // Add method to draw construction lines
@@ -592,7 +598,7 @@ class BSplineEditor {
         });
     }
 
-    redraw() {
+    drawCurve() {
         this.ctx.save();
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this.ctx.translate(this.offset.x, this.offset.y);
@@ -607,13 +613,13 @@ class BSplineEditor {
                 (this.lastMousePos?.y || 0) - point.y
             ) < 6;
             this.ctx.fillStyle = isHovered ? '#ff2200' : '#ef4444';
-            this.ctx.arc(point.x, point.y, 6, 0, Math.PI * 2);
+            this.ctx.arc(point.x, point.y, 6 / this.scale, 0, Math.PI * 2);
             this.ctx.fill();
 
             // Weight circle
             this.ctx.beginPath();
             this.ctx.strokeStyle = isHovered ? '#0044ff' : '#2563eb';
-            this.ctx.arc(point.x, point.y, point.weight * 30, 0, Math.PI * 2);
+            this.ctx.arc(point.x, point.y, point.weight * 6 * 6 / this.scale, 0, Math.PI * 2);
             this.ctx.stroke();
 
             // Show weight value on the right side
@@ -728,6 +734,6 @@ class BSplineEditor {
             });
         
         this.updateKnots();
-        this.redraw();
+        this.drawCurve();
     }
 }

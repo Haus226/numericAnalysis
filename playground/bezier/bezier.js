@@ -15,6 +15,18 @@ class BezierEditor {
         this.setupEventListeners();
     }
 
+    resetScale() {
+        this.scale = 1.0;
+        this.offset = { x: 0, y: 0 };
+        
+        // Force canvas resize and redraw
+        const container = this.canvas.parentElement;
+        this.canvas.width = container.clientWidth;
+        this.canvas.height = container.clientHeight;
+        
+        this.drawCurve();
+    }
+
     setupEventListeners() {
         this.canvas.addEventListener('mousedown', this.handleMouseDown.bind(this));
         this.canvas.addEventListener('mousemove', this.handleMouseMove.bind(this));
@@ -98,7 +110,7 @@ class BezierEditor {
             // Draw control points
             this.controlPoints.forEach((p, i) => {
                 this.ctx.beginPath();
-                this.ctx.arc(p.x, p.y, 5/this.scale, 0, Math.PI * 2);
+                this.ctx.arc(p.x, p.y, 6 / this.scale, 0, Math.PI * 2);
                 this.ctx.fillStyle = 'blue';
                 this.ctx.fill();
                 this.ctx.stroke();
@@ -151,7 +163,10 @@ class BezierEditor {
         const rect = this.canvas.getBoundingClientRect(); 
         const mouseX = e.clientX - rect.left;
         const mouseY = e.clientY - rect.top;
-        const pos = this.inverseTransformPoint(mouseX, mouseY);
+        // Scale mouse coordinates by canvas size ratio
+        const scaleX = this.canvas.width / rect.width;
+        const scaleY = this.canvas.height / rect.height;
+        const pos = this.inverseTransformPoint(mouseX * scaleX, mouseY * scaleY);
 
         // Right click to delete points
         if (e.button === 2) {
@@ -180,16 +195,22 @@ class BezierEditor {
         if (!this.isDragging) return;
 
         const rect = this.canvas.getBoundingClientRect();
+        const scaleX = this.canvas.width / rect.width;
+        const scaleY = this.canvas.height / rect.height;
         const pos = this.inverseTransformPoint(
-            e.clientX - rect.left,
-            e.clientY - rect.top
+            (e.clientX - rect.left) * scaleX,
+            (e.clientY - rect.top) * scaleY
         );
+        
         this.controlPoints[this.dragIndex] = pos;
         this.updatePointsList();
         this.drawCurve();
     }
 
     handleWheel(e) {
+        // Add check for points
+        if (this.controlPoints.length === 0) return;
+
         e.preventDefault();
         const mouseX = e.clientX - this.canvas.getBoundingClientRect().left;
         const mouseY = e.clientY - this.canvas.getBoundingClientRect().top;
@@ -270,7 +291,6 @@ class BezierEditor {
 
     clearPoints() {
         this.controlPoints = [];
-        this.resetAnimation();
         this.drawCurve();
         this.updatePointsList();
     }

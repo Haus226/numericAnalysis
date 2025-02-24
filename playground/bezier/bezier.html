@@ -23,7 +23,6 @@
 
         .container {
             max-width: 100%;
-            height: calc(100vh - 40px); /* Make container fill viewport height */
             margin: 0 auto;
             padding: 20px;
             display: flex;
@@ -35,13 +34,12 @@
             flex-shrink: 0;
             display: flex;
             flex-direction: column;
-            gap: 24px;
-            height: 100%;
+            gap: 5px;
         }
 
         .right-panel {
             flex-grow: 1;
-            height: 100%;
+            min-width: 0;
         }
 
         .canvas-container {
@@ -49,10 +47,8 @@
             border-radius: var(--border-radius);
             box-shadow: var(--shadow);
             padding: 16px;
-            height: calc(100% - 32px); /* Account for padding */
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            height: 100%; /* Account for padding */
+            margin-bottom: 24px;
         }
 
         canvas {
@@ -184,6 +180,7 @@
                     <button id="animationStart">Start</button>
                     <button id="animationPause">Pause</button>
                     <button id="animationResume">Resume</button>
+                    <button id="resetScale">Reset Zoom</button>
                 </div>
 
                 <div class="checkbox-group">
@@ -214,15 +211,18 @@
         window.addEventListener('DOMContentLoaded', () => {
             function resizeCanvas() {
                 const container = canvas.parentElement;
-                canvas.width = container.clientWidth - 32; // Account for padding
-                canvas.height = container.clientHeight - 32;
+                canvas.width = container.clientWidth;
+                canvas.height = container.clientHeight;
+                // Add this line to ensure redraw after resize
+                if (window.bezierEditor) window.bezierEditor.drawCurve();
             }
 
+            // Create editor instance first
+            window.bezierEditor = new BezierEditor();
+
+            // Then set up resize handling
             window.addEventListener('resize', resizeCanvas);
             resizeCanvas();
-
-            // Create editor instance
-            window.bezierEditor = new BezierEditor();
 
             // Update button handlers
             document.getElementById('animationStart').addEventListener('click', () => 
@@ -235,6 +235,11 @@
                 window.bezierEditor.clearPoints());
             document.getElementById('applyPoints').addEventListener('click', () => 
                 window.bezierEditor.updatePoints());
+            document.getElementById('resetScale').addEventListener('click', () => 
+                window.bezierEditor.resetScale());
+
+            window.bezierEditor.drawCurve();
+        
         });
     </script>
 </body>
