@@ -6,8 +6,7 @@ class BezierEditor {
         this.animationFrame = null;
         this.animationProgress = 0;
         this.isAnimating = false;
-        this.isDragging = false;
-        this.dragIndex = -1;
+        this.dragState = null;
         this.scale = 1.0;
         this.offset = { x: 0, y: 0 };
         this.isPaused = false;
@@ -31,7 +30,7 @@ class BezierEditor {
     setupEventListeners() {
         this.canvas.addEventListener('mousedown', this.handleMouseDown.bind(this));
         this.canvas.addEventListener('mousemove', this.handleMouseMove.bind(this));
-        this.canvas.addEventListener('mouseup', () => this.isDragging = false);
+        this.canvas.addEventListener('mouseup', () => this.dragState = false);
         this.canvas.addEventListener('wheel', this.handleWheel.bind(this));
         this.canvas.addEventListener('contextmenu', e => e.preventDefault());
     }
@@ -40,9 +39,19 @@ class BezierEditor {
         if (points.length === 1) return points[0];
         const newPoints = [];
         for (let i = 0; i < points.length - 1; i++) {
+            // Get weights from points
+            const w1 = points[i].weight || 1.0;
+            const w2 = points[i + 1].weight || 1.0;
+            
+            // Calculate weighted combination
+            const combinedWeight = (1 - t) * w1 + t * w2;
+            const x = ((1 - t) * w1 * points[i].x + t * w2 * points[i + 1].x) / combinedWeight;
+            const y = ((1 - t) * w1 * points[i].y + t * w2 * points[i + 1].y) / combinedWeight;
+            
             newPoints.push({
-                x: (1 - t) * points[i].x + t * points[i + 1].x,
-                y: (1 - t) * points[i].y + t * points[i + 1].y
+                x: x,
+                y: y,
+                weight: combinedWeight
             });
         }
         return this.deCasteljau(newPoints, t);
@@ -58,11 +67,17 @@ class BezierEditor {
             levels.push(currentPoints);
             const nextPoints = [];
             for (let i = 0; i < currentPoints.length - 1; i++) {
-                const p1 = currentPoints[i];
-                const p2 = currentPoints[i + 1];
+                const w1 = currentPoints[i].weight || 1.0;
+                const w2 = currentPoints[i + 1].weight || 1.0;
+                
+                const combinedWeight = (1 - t) * w1 + t * w2;
+                const x = ((1 - t) * w1 * currentPoints[i].x + t * w2 * currentPoints[i + 1].x) / combinedWeight;
+                const y = ((1 - t) * w1 * currentPoints[i].y + t * w2 * currentPoints[i + 1].y) / combinedWeight;
+                
                 nextPoints.push({
-                    x: (1 - t) * p1.x + t * p2.x,
-                    y: (1 - t) * p1.y + t * p2.y 
+                    x: x,
+                    y: y,
+                    weight: combinedWeight
                 });
             }
             currentPoints = nextPoints;
@@ -97,36 +112,52 @@ class BezierEditor {
 
         // Draw points and control polygon
         if (this.controlPoints.length > 0) {
-            // Draw control polygon
-            this.ctx.beginPath();
-            this.ctx.moveTo(this.controlPoints[0].x, this.controlPoints[0].y);
-            for (let i = 1; i < this.controlPoints.length; i++) {
-                this.ctx.lineTo(this.controlPoints[i].x, this.controlPoints[i].y);
-            }
-            this.ctx.strokeStyle = '#999';
-            this.ctx.setLineDash([5, 5]);
-            this.ctx.stroke();
-            this.ctx.setLineDash([]);
-
             // Draw control points
             this.controlPoints.forEach((p, i) => {
-                this.ctx.beginPath();
-                this.ctx.arc(p.x, p.y, 6 / this.scale, 0, Math.PI * 2);
-                this.ctx.fillStyle = 'blue';
+                this.ctx.beginPath(); 
+                this.ctx.fillStyle = '#ff2200';
+                this.ctx.arc(p.x, p.y, 10 / this.scale, 0, Math.PI * 2);
                 this.ctx.fill();
+
+                // Weight circle
+                this.ctx.beginPath();
+                this.ctx.strokeStyle = '#0044ff';
+                if (p.weight > 0) {
+                    this.ctx.arc(p.x, p.y, p.weight * 48 / this.scale, 0, Math.PI * 2);
+                }
+                else {
+                    this.ctx.arc(p.x, p.y, 0, 0, Math.PI * 2);
+                }
                 this.ctx.stroke();
+
+                // Show weight value on the right side
+                const weightText = p.weight >= 10 ? 
+                    p.weight.toFixed(0): 
+                    p.weight.toFixed(1);
+                this.drawCoordinateLabel(p.x + p.weight * 48 / this.scale, p.y,
+                    weightText, {x: 5, y: 0});
 
                 // Draw point coordinates
                 const coordX = ((p.x - 200) / 100).toFixed(2);
                 const coordY = ((p.y - 200) / 100).toFixed(2);
-                this.ctx.fillStyle = 'rgba(0,0,0,0.7)';
-                this.ctx.font = `${12/this.scale}px Arial`;
-                this.ctx.fillText(`P${i}(${coordX},${coordY})`, p.x + 10/this.scale, p.y - 10/this.scale);
+                this.drawCoordinateLabel(p.x, p.y,
+                    `P${i}(${coordX},${coordY})`, {x: 0, y: -20});
             });
         }
+        if (this.controlPoints.length >= 2) {
+            // Draw control polygon
+            this.ctx.beginPath();
+            this.ctx.strokeStyle = '#888';
+            this.ctx.setLineDash([5, 5]);
+            this.controlPoints.forEach((point, i) => {
+                if (i === 0) this.ctx.moveTo(point.x, point.y);
+                else this.ctx.lineTo(point.x, point.y);
+            });
+            this.ctx.stroke();
+            this.ctx.setLineDash([]);
+        }
 
-        if (this.controlPoints.length < 2) return;
-        
+
         if (this.isAnimating) {
             // Draw construction lines for current animation progress
             this.drawConstructionLines(this.controlPoints, this.animationProgress);
@@ -146,19 +177,30 @@ class BezierEditor {
             this.ctx.lineWidth = 1;
         } else {
             // Draw complete curve with more steps
-            this.ctx.beginPath();
-            this.ctx.moveTo(this.controlPoints[0].x, this.controlPoints[0].y);
-            const stepSize = 1 / this.steps;
-            for (let i = 0; i <= this.steps; i++) {
-                const t = i * stepSize;
-                const point = this.deCasteljau(this.controlPoints, t);
-                this.ctx.lineTo(point.x, point.y);
+            if (this.controlPoints.length) {
+                this.ctx.beginPath();
+                this.ctx.moveTo(this.controlPoints[0].x, this.controlPoints[0].y);
+                const stepSize = 1 / this.steps;
+                for (let i = 0; i <= this.steps; i++) {
+                    const t = i * stepSize;
+                    const point = this.deCasteljau(this.controlPoints, t);
+                    this.ctx.lineTo(point.x, point.y);
+                }
+                this.ctx.strokeStyle = 'green';
+                this.ctx.lineWidth = 2;
+                this.ctx.stroke();
+                this.ctx.lineWidth = 1;
             }
-            this.ctx.strokeStyle = 'green';
-            this.ctx.lineWidth = 2;
-            this.ctx.stroke();
-            this.ctx.lineWidth = 1;
         }
+        this.ctx.restore();
+    }
+
+
+    drawCoordinateLabel(x, y, text, offset = {x: 10, y: -10}) {
+        this.ctx.save();
+        this.ctx.fillStyle = 'rgba(0,0,0,0.7)';
+        this.ctx.font = `${10/this.scale}px Arial`;
+        this.ctx.fillText(text, x + offset.x, y + offset.y);
         this.ctx.restore();
     }
 
@@ -184,20 +226,48 @@ class BezierEditor {
             return;
         }
 
-        // Left click to add/drag points
-        const pointIndex = this.findNearestPoint(pos.x, pos.y);
-        if (pointIndex !== -1) {
-            this.isDragging = true;
-            this.dragIndex = pointIndex;
+        // Check if clicking near existing point
+        let pointIndex = -1;
+        let weightIndex = -1;
+
+        for (let i = 0; i < this.controlPoints.length; i++) {
+            const p = this.controlPoints[i];
+            const dist = Math.hypot(pos.x - p.x, pos.y - p.y);
+            if (dist <=  10 / this.scale) {
+                pointIndex = i;
+                break;
+            } else if (dist < p.weight  * 48 / this.scale && dist > 10 / this.scale) {
+                weightIndex = i;
+                break;
+            }
+        }
+
+        if (e.button === 2) { // Right click to delete
+            e.preventDefault();
+            if (pointIndex >= 0 || weightIndex >= 0) {
+                const indexToRemove = pointIndex >= 0 ? pointIndex : weightIndex;
+                this.controlPoints.splice(indexToRemove, 1);
+                this.drawCurve();
+                this.updatePointsList();
+            }
+            return;
+        }
+
+        // Handle left click for dragging
+        if (pointIndex >= 0) {
+            this.dragState = { type: 'point', index: pointIndex };
+        } else if (weightIndex >= 0) {
+            this.dragState = { type: 'weight', index: weightIndex };
         } else {
-            this.controlPoints.push({x: pos.x, y: pos.y});
-            this.updatePointsList();
-            this.drawCurve(); 
+            this.controlPoints.push({ x:pos.x, y:pos.y, weight: 1.0 });
+            this.updatePointsList; // Make sure point shows in input box immediately
+            this.drawCurve();
+
         }
     }
 
     handleMouseMove(e) {
-        if (!this.isDragging) return;
+
 
         const rect = this.canvas.getBoundingClientRect();
         const scaleX = this.canvas.width / rect.width;
@@ -206,10 +276,18 @@ class BezierEditor {
             (e.clientX - rect.left) * scaleX,
             (e.clientY - rect.top) * scaleY
         );
-        
-        this.controlPoints[this.dragIndex] = pos;
-        this.updatePointsList();
+        if (!this.dragState) return;
+
+        if (this.dragState.type === 'point') {
+            this.controlPoints[this.dragState.index].x = pos.x;
+            this.controlPoints[this.dragState.index].y = pos.y;
+        } else if (this.dragState.type === 'weight') {
+            const point = this.controlPoints[this.dragState.index];
+            const distance = Math.hypot(pos.x - point.x, pos.y - point.y);
+            point.weight = Math.max(0.1, distance / 30);
+        }
         this.drawCurve();
+        this.updatePointsList();
     }
 
     handleWheel(e) {
@@ -289,7 +367,7 @@ class BezierEditor {
         const pointsText = this.controlPoints.map(p => {
             const x = ((p.x - 200) / 100).toFixed(2);
             const y = ((p.y - 200) / 100).toFixed(2);
-            return `${x},${y}`;
+            return `${x},${y},${p.weight}`;
         }).join('\n');
         document.getElementById('pointsInput').value = pointsText;
     }
@@ -327,10 +405,11 @@ class BezierEditor {
             .map(line => line.trim())
             .filter(line => line)
             .map(line => {
-                const [x, y] = line.split(',').map(Number);
+                const [x, y, w] = line.split(',').map(Number);
                 return { 
                     x: x * 100 + 200, 
-                    y: y * 100 + 200
+                    y: y * 100 + 200,
+                    weight: w || 1.0 
                 };
             });
         this.drawCurve();

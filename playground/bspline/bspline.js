@@ -33,12 +33,6 @@ class BSplineEditor {
     }
 
     setupEventListeners() {
-        // Canvas events
-        this.canvas.addEventListener('mousedown', this.handleMouseDown.bind(this));
-        this.canvas.addEventListener('mousemove', this.handleMouseMove.bind(this));
-        this.canvas.addEventListener('mouseup', () => this.dragState = null);
-        this.canvas.addEventListener('mouseleave', () => this.dragState = null);
-        
         // Button events
         document.getElementById('clearPoints').addEventListener('click', () => this.clearPoints());
         document.getElementById('degreeInput').addEventListener('change', (e) => {
@@ -223,11 +217,15 @@ class BSplineEditor {
             this.lastMousePos = { x: e.clientX, y: e.clientY };
             return;
         }
+        e.preventDefault();
 
-        const rect = this.canvas.getBoundingClientRect();
+        const rect = this.canvas.getBoundingClientRect(); 
         const mouseX = e.clientX - rect.left;
         const mouseY = e.clientY - rect.top;
-        const pos = this.inverseTransformPoint(mouseX, mouseY);
+        // Scale mouse coordinates by canvas size ratio
+        const scaleX = this.canvas.width / rect.width;
+        const scaleY = this.canvas.height / rect.height;
+        const pos = this.inverseTransformPoint(mouseX * scaleX, mouseY * scaleY);
 
         // Check if clicking near existing point
         let pointIndex = -1;
@@ -236,10 +234,10 @@ class BSplineEditor {
         for (let i = 0; i < this.controlPoints.length; i++) {
             const p = this.controlPoints[i];
             const dist = Math.hypot(pos.x - p.x, pos.y - p.y);
-            if (dist <=  18 / this.scale) {
+            if (dist <=  10 / this.scale) {
                 pointIndex = i;
                 break;
-            } else if (dist < p.weight  * 6 * 6 / this.scale && dist > 18 / this.scale) {
+            } else if (dist < p.weight  * 48 / this.scale && dist > 10 / this.scale) {
                 weightIndex = i;
                 break;
             }
@@ -277,27 +275,13 @@ class BSplineEditor {
             return;
         }
 
-        const rect = this.canvas.getBoundingClientRect();
+        const rect = this.canvas.getBoundingClientRect(); 
         const mouseX = e.clientX - rect.left;
         const mouseY = e.clientY - rect.top;
-        const pos = this.inverseTransformPoint(mouseX, mouseY);
-
-        // Check for hovering over draggable elements
-        let hovering = false;
-        this.controlPoints.forEach(point => {
-            const dist = Math.hypot(pos.x - point.x, pos.y - point.y);
-            if (dist <= 18 / this.scale) {
-                document.body.style.cursor = 'move';
-                hovering = true;
-            } else if (dist < point.weight * 6 * 6 / this.scale && dist > 18 / this.scale) {
-                document.body.style.cursor = 'ew-resize'; // Changed cursor for weight adjustment
-                hovering = true;
-            }
-        });
-
-        if (!hovering) {
-            document.body.style.cursor = 'default';
-        }
+        // Scale mouse coordinates by canvas size ratio
+        const scaleX = this.canvas.width / rect.width;
+        const scaleY = this.canvas.height / rect.height;
+        const pos = this.inverseTransformPoint(mouseX * scaleX, mouseY * scaleY);
 
         if (!this.dragState) return;
 
@@ -307,7 +291,6 @@ class BSplineEditor {
         } else if (this.dragState.type === 'weight') {
             const point = this.controlPoints[this.dragState.index];
             const distance = Math.hypot(pos.x - point.x, pos.y - point.y);
-            // Remove upper limit on weight, keep minimum of 0.1
             point.weight = Math.max(0.1, distance / 30);
         }
         this.drawCurve();
@@ -608,25 +591,26 @@ class BSplineEditor {
         this.controlPoints.forEach((point, i) => {
             // Draw control points
             this.ctx.beginPath();
-            const isHovered = Math.hypot(
-                (this.lastMousePos?.x || 0) - point.x,
-                (this.lastMousePos?.y || 0) - point.y
-            ) < 6;
-            this.ctx.fillStyle = isHovered ? '#ff2200' : '#ef4444';
-            this.ctx.arc(point.x, point.y, 6 / this.scale, 0, Math.PI * 2);
+            this.ctx.fillStyle = '#ff2200';
+            this.ctx.arc(point.x, point.y, 10 / this.scale, 0, Math.PI * 2);
             this.ctx.fill();
 
             // Weight circle
             this.ctx.beginPath();
-            this.ctx.strokeStyle = isHovered ? '#0044ff' : '#2563eb';
-            this.ctx.arc(point.x, point.y, point.weight * 6 * 6 / this.scale, 0, Math.PI * 2);
+            this.ctx.strokeStyle = '#0044ff';
+            if (point.weight > 0) {
+                this.ctx.arc(point.x, point.y, point.weight * 48 / this.scale, 0, Math.PI * 2);
+            }
+            else {
+                this.ctx.arc(point.x, point.y, 0, 0, Math.PI * 2);
+            }
             this.ctx.stroke();
 
             // Show weight value on the right side
             const weightText = point.weight >= 10 ? 
                 point.weight.toFixed(0) : 
                 point.weight.toFixed(1);
-            this.drawCoordinateLabel(point.x + point.weight * 6 * 6 / this.scale, point.y,
+            this.drawCoordinateLabel(point.x + point.weight * 48 / this.scale, point.y,
                 weightText, {x: 5, y: 0});
 
             // Draw control point label above point
@@ -681,7 +665,7 @@ class BSplineEditor {
                 if (point) {
                     this.ctx.beginPath();
                     this.ctx.fillStyle = 'red';
-                    this.ctx.arc(point.x, point.y, 8/this.scale, 0, Math.PI * 2);
+                    this.ctx.arc(point.x, point.y, 8 / this.scale, 0, Math.PI * 2);
                     this.ctx.fill();
                 }
             }
@@ -698,7 +682,7 @@ class BSplineEditor {
                 if (point) {
                     this.ctx.beginPath();
                     this.ctx.fillStyle = 'green';
-                    this.ctx.arc(point.x, point.y, 4/this.scale, 0, Math.PI * 2);
+                    this.ctx.arc(point.x, point.y, 4 / this.scale, 0, Math.PI * 2);
                     this.ctx.fill();
                     
                     // Show computed point coordinates
